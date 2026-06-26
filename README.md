@@ -48,3 +48,37 @@ Schema is shared with the frontend app; sync with `npm run db:push`.
 The remaining ~19 tRPC routers (match, payment, barter, affiliate, instagram,
 admin, etc.) still live in `../app/api` and are served by the frontend's dev
 server. Port them into NestJS modules incrementally, then remove `../app/api`.
+
+## How to push code to your GitHub account
+
+This repo is managed separately from the frontend (`../app`). To push changes:
+
+1. **Set your Git identity** (inside this folder):
+   ```bash
+   cd backend
+   git config user.name "eesheesingh"
+   git config user.email "eesheesingh@users.noreply.github.com"
+   ```
+
+2. **Check the remote:**
+   ```bash
+   git remote -v
+   # should point to https://github.com/eesheesingh/socialmitraa-be.git
+   ```
+
+3. **Stage, commit, and push:**
+   ```bash
+   git add .
+   git commit -m "your commit message"
+   git push origin main
+   ```
+
+4. **Authentication:** GitHub does not accept account passwords for `git push`.
+   You need a **Personal Access Token (PAT)**:
+   - Go to https://github.com/settings/tokens/new
+   - Select the **repo** scope
+   - Generate and copy the token
+   - When prompted for a password during `git push`, paste the PAT
+
+   The PAT is stored in `.env.local` as `GITHUB_TOKEN` for this project.
+   `.env.local` is gitignored, so it will not be committed.
