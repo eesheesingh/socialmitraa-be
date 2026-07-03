@@ -803,3 +803,34 @@ export const platformAnalytics = pgTable("platform_analytics", {
 });
 
 export type PlatformAnalytic = typeof platformAnalytics.$inferSelect;
+
+// ============ INTERESTED USERS / WAITLIST ============
+// Landing-page signups from users who want to try Social Mitraa.
+// They self-identify as a creator, brand, or exploratory visitor.
+export const interestedUsers = pgTable("interested_users", {
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  // Contact
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 20 }),
+  // Who they are
+  userType: text("userType", { enum: ["creator", "brand", "exploratory"] }).notNull(),
+  // Creator-specific
+  instagramHandle: varchar("instagramHandle", { length: 100 }),
+  niche: varchar("niche", { length: 100 }),
+  followerRange: varchar("followerRange", { length: 50 }),
+  // Brand-specific
+  companyName: varchar("companyName", { length: 255 }),
+  website: varchar("website", { length: 255 }),
+  industry: varchar("industry", { length: 100 }),
+  // Exploratory / general
+  message: text("message"),
+  // Admin workflow
+  status: text("status", { enum: ["new", "contacted", "converted", "dropped"] }).default("new").notNull(),
+  adminNotes: text("adminNotes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().$onUpdate(() => new Date()),
+});
+
+export type InterestedUser = typeof interestedUsers.$inferSelect;
+export type InsertInterestedUser = typeof interestedUsers.$inferInsert;
