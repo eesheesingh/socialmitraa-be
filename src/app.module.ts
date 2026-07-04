@@ -7,6 +7,7 @@ import { CampaignsModule } from "./campaigns/campaigns.module";
 import { BrandsModule } from "./brands/brands.module";
 import { AuthGuard } from "./common/guards/auth.guard";
 import { RolesGuard } from "./common/guards/roles.guard";
+import { HealthController } from "./health/health.controller";
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { RolesGuard } from "./common/guards/roles.guard";
     CampaignsModule,
     BrandsModule,
   ],
+  controllers: [HealthController],
   providers: [
     // AuthGuard runs first (attaches user / enforces auth), then RolesGuard.
     { provide: APP_GUARD, useClass: AuthGuard },
